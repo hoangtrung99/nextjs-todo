@@ -8,29 +8,47 @@
     "start": "next start",
     "lint": "npx biome lint --write --no-errors-on-unmatched --files-ignore-unknown=true",
     "format": "biome format --fix ./src",
-    "type-check": "tsc -b"
+    "type-check": "tsc -b",
+    "generate": "drizzle-kit generate",
+    "migrate:dev": "pnpm with-env -- drizzle-kit migrate",
+    "migrate:prod": "node dist/db/migrate.js",
+    "with-env": "dotenvx run -f .env.local -f .env"
   },
   "dependencies": {
+    "@better-fetch/fetch": "^1.1.12",
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
+    "@dotenvx/dotenvx": "^1.24.5",
+    "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-slot": "^1.1.0",
+    "better-auth": "^1.0.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "drizzle-orm": "^0.36.4",
     "lucide-react": "^0.456.0",
     "next": "15.0.3",
+    "next-safe-action": "^7.9.9",
     "next-themes": "^0.4.3",
+    "oslo": "^1.2.1",
+    "pg": "^8.13.1",
     "react": "19.0.0-rc-66855b96-20241106",
     "react-dom": "19.0.0-rc-66855b96-20241106",
+    "sonner": "^1.7.0",
     "tailwind-merge": "^2.5.4",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@types/node": "^20",
+    "@types/pg": "^8.11.10",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "drizzle-kit": "^0.28.1",
     "lefthook": "^1.8.2",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
+    "tsx": "^4.19.2",
     "typescript": "^5"
   }
 }

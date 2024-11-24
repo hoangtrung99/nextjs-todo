@@ -1,8 +1,21 @@
 import { Terminal } from 'lucide-react'
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { Button } from '@/components/ui/button'
+import { auth } from '@/lib/auth'
+import { headers } from 'next/headers'
+import { redirect } from 'next/navigation'
 
 export default function Home() {
+  async function signOut() {
+    'use server'
+    await auth.api.signOut({
+      headers: await headers()
+    })
+
+    redirect('/sign-in')
+  }
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center">
       <div>
@@ -14,6 +27,10 @@ export default function Home() {
             TypeScript, and more.
           </AlertDescription>
         </Alert>
+
+        <form action={signOut}>
+          <Button type="submit">Sign out</Button>
+        </form>
       </div>
     </div>
   )
