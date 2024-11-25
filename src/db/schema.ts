@@ -1,3 +1,4 @@
+import { relations } from 'drizzle-orm'
 import { boolean, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 
 export const user = pgTable('user', {
@@ -49,3 +50,25 @@ export const verification = pgTable('verification', {
   createdAt: timestamp('createdAt'),
   updatedAt: timestamp('updatedAt')
 })
+
+export const todos = pgTable('todos', {
+  id: text('id').primaryKey(),
+  title: text('title').notNull(),
+  completed: boolean('completed').notNull().default(false),
+  userId: text('userId')
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' }),
+  createdAt: timestamp('createdAt').notNull().defaultNow(),
+  updatedAt: timestamp('updatedAt').notNull().defaultNow()
+})
+
+export const userToTodos = relations(user, ({ many }) => ({
+  todos: many(todos)
+}))
+
+export const todosToUser = relations(todos, ({ one }) => ({
+  user: one(user, {
+    fields: [todos.userId],
+    references: [user.id]
+  })
+}))

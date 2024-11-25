@@ -11,7 +11,7 @@
     "type-check": "tsc -b",
     "generate": "drizzle-kit generate",
     "migrate:dev": "pnpm with-env -- drizzle-kit migrate",
-    "migrate:prod": "node dist/db/migrate.js",
+    "migrate:prod": "node src/db/migrate.js",
     "with-env": "dotenvx run -f .env.local -f .env"
   },
   "dependencies": {
@@ -19,6 +19,9 @@
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
     "@dotenvx/dotenvx": "^1.24.5",
+    "@hookform/resolvers": "^3.9.1",
+    "@next-safe-action/adapter-react-hook-form": "^1.0.13",
+    "@radix-ui/react-checkbox": "^1.1.2",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "better-auth": "^1.0.2",
@@ -26,17 +29,19 @@
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.36.4",
     "lucide-react": "^0.456.0",
-    "next": "15.0.3",
+    "next": "15.0.4-canary.26",
     "next-safe-action": "^7.9.9",
     "next-themes": "^0.4.3",
     "oslo": "^1.2.1",
     "pg": "^8.13.1",
-    "react": "19.0.0-rc-66855b96-20241106",
-    "react-dom": "19.0.0-rc-66855b96-20241106",
+    "react": "19.0.0-rc-380f5d67-20241113",
+    "react-dom": "19.0.0-rc-380f5d67-20241113",
+    "react-hook-form": "^7.53.2",
     "sonner": "^1.7.0",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "zod-form-data": "^2.0.2"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
@@ -50,5 +55,6 @@
     "tailwindcss": "^3.4.1",
     "tsx": "^4.19.2",
     "typescript": "^5"
-  }
+  },
+  "packageManager": "pnpm@9.12.3+sha512.cce0f9de9c5a7c95bef944169cc5dfe8741abfb145078c0d508b868056848a87c81e626246cb60967cbd7fd29a6c062ef73ff840d96b3c86c40ac92cf4a813ee"
 }
