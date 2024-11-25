@@ -1,4 +1,5 @@
 FROM node:22-alpine AS base
+RUN corepack enable pnpm
 
 # Install dependencies only when needed
 FROM base AS deps
@@ -46,6 +47,8 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next/server/migrate.js ./migrate.js
+COPY --from=builder /app/.next/server/webpack-runtime.js ./webpack-runtime.js
 
 # Set the correct permission for prerender cache
 RUN mkdir .next
@@ -65,4 +68,4 @@ ENV PORT=3000
 # server.js is created by next build from the standalone output
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output
 ENV HOSTNAME="0.0.0.0"
-CMD ["node", "server.js"]
+CMD ["pnpm", "serve"]
