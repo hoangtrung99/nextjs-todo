@@ -14,7 +14,6 @@
     "with-env": "dotenvx run -f .env.local -f .env"
   },
   "dependencies": {
-    "@better-fetch/fetch": "^1.1.12",
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
     "@dotenvx/dotenvx": "^1.24.5",
