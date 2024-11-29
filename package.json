@@ -11,7 +11,6 @@
     "type-check": "tsc -b",
     "generate": "drizzle-kit generate",
     "migrate:dev": "pnpm with-env -- drizzle-kit migrate",
-    "migrate:prod": "node src/db/migrate.js",
     "with-env": "dotenvx run -f .env.local -f .env"
   },
   "dependencies": {
