@@ -5,7 +5,7 @@ import { todos } from '@/db/schema'
 import { actionClient } from '@/lib/safe-action'
 import { getUser, validateSession } from '@/lib/session'
 import { eq } from 'drizzle-orm'
-import { unstable_cacheTag as cacheTag, expireTag } from 'next/cache'
+import { unstable_cacheTag as cacheTag, revalidateTag } from 'next/cache'
 import {
   CreateTodoSchema,
   DeleteTodoSchema,
@@ -15,7 +15,7 @@ import {
 
 const mutationOptions = {
   onSuccess() {
-    expireTag('todos')
+    revalidateTag('todos')
   }
 }
 
