@@ -10,6 +10,8 @@ export default async function authMiddleware(request: NextRequest) {
   })
   const session = await response.json()
 
+  console.log('session', session)
+
   if (!session) {
     return NextResponse.redirect(new URL('/sign-in', request.url))
   }

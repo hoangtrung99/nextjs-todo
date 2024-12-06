@@ -1,19 +1,19 @@
 'use client'
 
-import { Loader2 } from 'lucide-react'
+import {
+  Button,
+  Card,
+  Container,
+  Group,
+  PasswordInput,
+  Stack,
+  Text,
+  TextInput,
+  Title
+} from '@mantine/core'
+import { IconBrandGoogle } from '@tabler/icons-react'
 import { useAction } from 'next-safe-action/hooks'
 import Link from 'next/link'
-
-import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { toast } from 'sonner'
 import { signInAction } from '../actions/sign-in'
 
@@ -21,68 +21,82 @@ export function LoginForm() {
   const { execute, isExecuting } = useAction(signInAction, {
     onError(error) {
       toast.error(
-        error.error.validationErrors?._errors?.[0] ?? 'Something went wrong'
+        error.error.validationErrors?._errors?.[0] ?? 'Đã có lỗi xảy ra'
       )
     }
   })
 
   return (
-    <Card className="mx-auto max-w-sm">
-      <CardHeader>
-        <CardTitle className="text-2xl">Login</CardTitle>
-        <CardDescription>
-          Enter your email below to login to your account
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form>
-          <div className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
+    <Container size="xs">
+      <Card withBorder radius="md" p="xl" mt="xl">
+        <Stack gap="md">
+          <div>
+            <Title order={2}>Đăng nhập</Title>
+            <Text size="sm" c="dimmed">
+              Nhập email của bạn để đăng nhập
+            </Text>
+          </div>
+
+          <form>
+            <Stack gap="md">
+              <TextInput
+                label="Email"
                 type="email"
                 name="email"
                 placeholder="m@example.com"
                 required
               />
-            </div>
-            <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
-                <Link
-                  href="#"
-                  className="ml-auto inline-block text-sm underline"
-                >
-                  Forgot your password?
-                </Link>
+
+              <div>
+                <Group justify="space-between" mb={4}>
+                  <Text component="label" htmlFor="password" size="sm" fw={500}>
+                    Mật khẩu
+                  </Text>
+                  <Text
+                    component={Link}
+                    href="#"
+                    size="sm"
+                    td="underline"
+                    c="dimmed"
+                  >
+                    Quên mật khẩu?
+                  </Text>
+                </Group>
+                <PasswordInput
+                  id="password"
+                  name="password"
+                  placeholder="Mật khẩu"
+                  required
+                />
               </div>
-              <Input id="password" name="password" type="password" required />
-            </div>
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={isExecuting}
-              formAction={execute}
-            >
-              {isExecuting ? (
-                <Loader2 size={16} className="animate-spin" />
-              ) : (
-                'Login'
-              )}
-            </Button>
-            <Button variant="outline" className="w-full">
-              Login with Google
-            </Button>
-          </div>
-        </form>
-        <div className="mt-4 text-center text-sm">
-          Don&apos;t have an account?{' '}
-          <Link href="/sign-up" className="underline">
-            Sign up
-          </Link>
-        </div>
-      </CardContent>
-    </Card>
+
+              <Stack gap="xs">
+                <Button
+                  type="submit"
+                  loading={isExecuting}
+                  formAction={execute}
+                >
+                  Đăng nhập
+                </Button>
+
+                <Button
+                  variant="light"
+                  leftSection={<IconBrandGoogle size={16} />}
+                >
+                  Đăng nhập với Google
+                </Button>
+              </Stack>
+            </Stack>
+          </form>
+
+          <Text ta="center" size="sm">
+            Chưa có tài khoản?{' '}
+            <Text component={Link} href="/sign-up" td="underline" c="blue" span>
+              Đăng ký
+            </Text>
+          </Text>
+        </Stack>
+      </Card>
+    </Container>
   )
 }

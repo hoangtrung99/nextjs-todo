@@ -1,19 +1,22 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
+import {
+  Button,
+  Card,
+  Container,
+  FileInput,
+  Grid,
+  Group,
+  Image,
+  PasswordInput,
+  Stack,
+  Text,
+  TextInput,
+  Title
+} from '@mantine/core'
 import { useHookFormAction } from '@next-safe-action/adapter-react-hook-form/hooks'
-import { Label } from '@radix-ui/react-label'
-import { Loader2, X } from 'lucide-react'
-import Image from 'next/image'
+import { IconPhoto, IconX } from '@tabler/icons-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { SignUpSchema } from '../actions/schema'
@@ -36,8 +39,7 @@ export function SignUp() {
     }
   )
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
+  const handleImageChange = (file: File | null) => {
     if (file) {
       form.setValue('image', file)
       const reader = new FileReader()
@@ -49,139 +51,114 @@ export function SignUp() {
   }
 
   return (
-    <Card className="z-50 rounded-md rounded-t-none max-w-md">
-      <CardHeader>
-        <CardTitle className="text-lg md:text-xl">Đăng ký</CardTitle>
-        <CardDescription className="text-xs md:text-sm">
-          Nhập thông tin của bạn để tạo tài khoản
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmitWithAction} className="grid gap-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="first-name">Tên</Label>
-              <Input
-                id="first-name"
-                placeholder="Max"
-                {...form.register('firstName')}
-              />
-              {form.formState.errors.firstName && (
-                <p className="text-sm text-red-500">
-                  {form.formState.errors.firstName.message}
-                </p>
-              )}
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="last-name">Họ</Label>
-              <Input
-                id="last-name"
-                placeholder="Robinson"
-                {...form.register('lastName')}
-              />
-              {form.formState.errors.lastName && (
-                <p className="text-sm text-red-500">
-                  {form.formState.errors.lastName.message}
-                </p>
-              )}
-            </div>
+    <Container size="xs">
+      <Card withBorder radius="md" p="xl" mt="xl">
+        <Stack gap="md">
+          <div>
+            <Title order={2}>Đăng ký</Title>
+            <Text size="sm" c="dimmed">
+              Nhập thông tin của bạn để tạo tài khoản
+            </Text>
           </div>
-          <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="m@example.com"
-              {...form.register('email')}
-            />
-            {form.formState.errors.email && (
-              <p className="text-sm text-red-500">
-                {form.formState.errors.email.message}
-              </p>
-            )}
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="password">Mật khẩu</Label>
-            <Input
-              id="password"
-              type="password"
-              autoComplete="new-password"
-              placeholder="Mật khẩu"
-              {...form.register('password')}
-            />
-            {form.formState.errors.password && (
-              <p className="text-sm text-red-500">
-                {form.formState.errors.password.message}
-              </p>
-            )}
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="password">Xác nhận mật khẩu</Label>
-            <Input
-              id="password_confirmation"
-              type="password"
-              autoComplete="new-password"
-              placeholder="Xác nhận mật khẩu"
-              {...form.register('passwordConfirmation')}
-            />
-            {form.formState.errors.passwordConfirmation && (
-              <p className="text-sm text-red-500">
-                {form.formState.errors.passwordConfirmation.message}
-              </p>
-            )}
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="image">Ảnh đại diện (tùy chọn)</Label>
-            <div className="flex items-end gap-4">
-              {imagePreview && (
-                <div className="relative w-16 h-16 rounded-sm overflow-hidden">
-                  <Image
-                    src={imagePreview}
-                    alt="Profile preview"
-                    layout="fill"
-                    objectFit="cover"
-                  />
-                </div>
-              )}
-              <div className="flex items-center gap-2 w-full">
-                <Input
-                  id="image"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="w-full"
-                />
-                {imagePreview && (
-                  <X
-                    className="cursor-pointer"
-                    onClick={() => {
-                      form.setValue('image', undefined)
-                      setImagePreview(null)
-                    }}
-                  />
-                )}
-              </div>
-            </div>
-          </div>
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={action.status === 'executing'}
-          >
-            {action.status === 'executing' ? (
-              <Loader2 size={16} className="animate-spin" />
-            ) : (
-              'Tạo tài khoản'
-            )}
-          </Button>
 
-          {form.formState.errors.root && (
-            <p className="text-sm text-red-500">
-              {form.formState.errors.root.message}
-            </p>
-          )}
-        </form>
-      </CardContent>
-    </Card>
+          <form onSubmit={handleSubmitWithAction}>
+            <Stack gap="md">
+              <Grid gutter="md">
+                <Grid.Col span={6}>
+                  <TextInput
+                    label="Tên"
+                    placeholder="Max"
+                    {...form.register('firstName')}
+                    error={form.formState.errors.firstName?.message}
+                  />
+                </Grid.Col>
+                <Grid.Col span={6}>
+                  <TextInput
+                    label="Họ"
+                    placeholder="Robinson"
+                    {...form.register('lastName')}
+                    error={form.formState.errors.lastName?.message}
+                  />
+                </Grid.Col>
+              </Grid>
+
+              <TextInput
+                label="Email"
+                placeholder="m@example.com"
+                {...form.register('email')}
+                error={form.formState.errors.email?.message}
+              />
+
+              <PasswordInput
+                label="Mật khẩu"
+                placeholder="Mật khẩu"
+                {...form.register('password')}
+                error={form.formState.errors.password?.message}
+              />
+
+              <PasswordInput
+                label="Xác nhận mật khẩu"
+                placeholder="Xác nhận mật khẩu"
+                {...form.register('passwordConfirmation')}
+                error={form.formState.errors.passwordConfirmation?.message}
+              />
+
+              <Stack gap="xs">
+                <Text size="sm" fw={500}>
+                  Ảnh đại diện (tùy chọn)
+                </Text>
+                <Group align="flex-start">
+                  {imagePreview && (
+                    <Image
+                      src={imagePreview}
+                      w={80}
+                      h={80}
+                      radius="sm"
+                      alt="Preview"
+                    />
+                  )}
+                  <Stack gap={4} style={{ flex: 1 }}>
+                    <FileInput
+                      placeholder="Chọn ảnh"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      leftSection={<IconPhoto size={16} />}
+                    />
+                    {imagePreview && (
+                      <Button
+                        variant="light"
+                        color="red"
+                        size="xs"
+                        leftSection={<IconX size={16} />}
+                        onClick={() => {
+                          form.setValue('image', undefined)
+                          setImagePreview(null)
+                        }}
+                      >
+                        Xóa ảnh
+                      </Button>
+                    )}
+                  </Stack>
+                </Group>
+              </Stack>
+
+              <Button
+                type="submit"
+                loading={action.status === 'executing'}
+                fullWidth
+              >
+                Tạo tài khoản
+              </Button>
+
+              {form.formState.errors.root && (
+                <Text c="red" size="sm">
+                  {form.formState.errors.root.message}
+                </Text>
+              )}
+            </Stack>
+          </form>
+        </Stack>
+      </Card>
+    </Container>
   )
 }

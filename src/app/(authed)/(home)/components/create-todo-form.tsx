@@ -1,8 +1,6 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Loader2 } from 'lucide-react'
+import { Button, Center, Input } from '@mantine/core'
 import { useAction } from 'next-safe-action/hooks'
 import { toast } from 'sonner'
 import { createTodoAction } from '../actions/todo'
@@ -19,28 +17,22 @@ export function CreateTodoForm() {
   })
 
   return (
-    <form action={createTodo} className="flex gap-2">
-      <div className="flex-1">
-        <Input
-          name="title"
-          placeholder="Thêm việc cần làm..."
-          className="w-full"
-        />
+    <Center component="form" action={createTodo}>
+      <Input
+        mr={4}
+        name="title"
+        w={400}
+        placeholder="Thêm việc cần làm..."
+        error={result.validationErrors?.title?._errors?.[0]}
+      />
 
-        {status === 'hasErrored' && (
-          <p className="text-sm text-red-500 mt-1">
-            {result.validationErrors?.title?._errors?.[0]}
-          </p>
-        )}
-      </div>
-
-      <Button type="submit" disabled={status === 'executing'}>
-        {status === 'executing' ? (
-          <Loader2 className="h-4 w-4 animate-spin" />
-        ) : (
-          'Thêm'
-        )}
+      <Button
+        type="submit"
+        loading={status === 'executing'}
+        disabled={status === 'executing'}
+      >
+        Thêm
       </Button>
-    </form>
+    </Center>
   )
 }
